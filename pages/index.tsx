@@ -16,12 +16,13 @@ interface MDXModule {
 export const Page = () => {
   const modules: MDXModule[] = importAll(require.context("../assets/mdx/steps"))
 
+  // eslint-disable-next-line react/display-name
   const steps = range(modules.length + 1).map(i => () => <div>Step{i + 1}</div>)
   const sections = steps.map((step, i) => [step, ...(modules[i]?.default ?? [])]).flat()
 
   return (
     <HorizonCcroll>
-      {sections.map(Section => <Section />)}
+      {sections.map((Section, i) => <Section key={i} />)}
     </HorizonCcroll>
   )
 }
