@@ -54,15 +54,16 @@ const useOnScroll = ({ start, end }: { start?: any, end?: any } = {}) => {
   return ref as MutableRefObject<null>
 }
 
-const HorizonCcroll = () => {
+export const HorizonCcroll = ({ children }: { children: any }) => {
   const ref = useOnScroll()
+  const length: 0 | 1 | 2 = (children ?? {}).length ?? 0
 
   return (
     <div ref={ref} className="flex overflow-x-auto" style={{ scrollSnapType: "x mandatory" }}>
-      {range(10).map(i => (
-        <div className={`w-screen h-screen bg-${i % 2 ? 'red' : 'green'}-600 flex justify-center items-center`} style={{ scrollSnapAlign: "start" }} key={i}>
-          <div className="w-screen h-screen flex justify-center items-center">
-            Hello
+      {({ 0: [], 1: [children] }[length as 0 | 1] ?? children).map((child, i) => (
+        <div className={`w-screen h-screen bg-gray-${i % 2 ? 700 : 800} flex justify-center items-center`} style={{ scrollSnapAlign: "start" }} key={i}>
+          <div className="w-screen h-screen flex justify-center items-center text-white">
+            {child}
           </div>
         </div>
       ))}
@@ -72,7 +73,10 @@ const HorizonCcroll = () => {
 
 export const Page = () => {
   return (
-    <HorizonCcroll />
+    <HorizonCcroll>
+      <div>Hello1</div>
+      <div>Hello2</div>
+    </HorizonCcroll>
   )
 }
 
